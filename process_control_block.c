@@ -50,7 +50,7 @@ void increment_time(PCB* process) {
 
 void first_come_first_serve(PCB* processes[], int proc_count, int time) {
     int process_running = 1;
-    for (int proc_index; proc_index < proc_count; proc_index++) {
+    for (int proc_index = 0; proc_index < proc_count; proc_index++) {
         if (strcmp(processes[proc_index]->STATE, "RUNNING") == 0) {
             process_running = 0;
             break;
@@ -58,7 +58,7 @@ void first_come_first_serve(PCB* processes[], int proc_count, int time) {
     }
 
     if (process_running) {
-        for (int proc_index; proc_index < proc_count; proc_index++) {
+        for (int proc_index = 0; proc_index < proc_count; proc_index++) {
             PCB* current_proc = processes[proc_index];
             if (strcmp(current_proc->STATE, "READY") == 0) {
                 update_process(current_proc, "RUNNING");
@@ -66,6 +66,31 @@ void first_come_first_serve(PCB* processes[], int proc_count, int time) {
             }
         }
     }
+}
+
+void shortest_time_remaining(PCB* processes[], int proc_count, int time) {
+    PCB* shortest = NULL;
+    for (int proc_index = 0; proc_index < proc_count; proc_index++) {
+        PCB* current_proc = processes[proc_index];
+        if (strcmp(current_proc->STATE, "READY") == 0 || strcmp(current_proc->STATE, "RUNNING") == 0) {
+            if (shortest == NULL || current_proc->REM_TIME < shortest->REM_TIME) {
+                shortest = current_proc;
+            }
+        }
+    }
+    
+
+    for (int proc_index = 0; proc_index < proc_count; proc_index++) {
+        PCB* current_proc = processes[proc_index];
+        if (strcmp(current_proc->STATE, "RUNNING") == 0 && current_proc != shortest) {
+            update_process(current_proc, "READY");
+        }
+    }
+
+    if (shortest != NULL && strcmp(shortest->STATE, "READY") == 0) {
+        update_process(shortest, "RUNNING");
+    }
+
 }
 
 void begin_clock(PCB* processes[], int proc_count, int total_time) {
@@ -76,10 +101,10 @@ void begin_clock(PCB* processes[], int proc_count, int total_time) {
             if (current_proc->ARR_TIME == time && strcmp(current_proc->STATE, "NEW") == 0) {
                 update_process(current_proc, "READY");
             }
-            increment_time(current_proc);
         }
         
-        first_come_first_serve(processes, proc_count, time);
+        //first_come_first_serve(processes, proc_count, time);
+        shortest_time_remaining(processes, proc_count, time);
 
         for (int proc_index = 0; proc_index < proc_count; proc_index++) {
             PCB* current_proc = processes[proc_index];
@@ -92,7 +117,7 @@ void begin_clock(PCB* processes[], int proc_count, int total_time) {
 
 int main() {
     PCB* processes[4];
-    FILE* file = fopen("inputs.txt", "r");
+    FILE* file = fopen("inputs_folder/inputs.txt", "r");
 
     char PID[12];
     int ARR_TIME, BURST_TIME, PRIORITY;
@@ -107,6 +132,7 @@ int main() {
     }
 
     int proc_count = sizeof(processes) / sizeof(processes[0]);
+    printf("-- INITIAL PROCESSES --\n");
     for (int i = 0; i < proc_count; i++) {
         print_process(processes[i]);
     }

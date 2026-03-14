@@ -1,0 +1,45 @@
+-- INITIAL STATES --
+PID: P1, Arr: 0, Burst: 5, Rem 5, Prio 2, State: NEW
+PID: P2, Arr: 1, Burst: 3, Rem 3, Prio 1, State: NEW
+PID: P3, Arr: 2, Burst: 1, Rem 1, Prio 3, State: NEW
+PID: P4, Arr: 3, Burst: 2, Rem 2, Prio 2, State: NEW
+
+Time: 0
+PID: P1, Arr: 0, Burst: 5, Rem 5, Prio 2, State: READY
+PID: P1, Arr: 0, Burst: 5, Rem 5, Prio 2, State: RUNNING
+
+Time: 1
+PID: P2, Arr: 1, Burst: 3, Rem 3, Prio 1, State: READY
+PID: P1, Arr: 0, Burst: 5, Rem 4, Prio 2, State: READY
+PID: P2, Arr: 1, Burst: 3, Rem 3, Prio 1, State: RUNNING
+
+Time: 2
+PID: P3, Arr: 2, Burst: 1, Rem 1, Prio 3, State: READY
+PID: P2, Arr: 1, Burst: 3, Rem 2, Prio 1, State: READY
+PID: P3, Arr: 2, Burst: 1, Rem 1, Prio 3, State: RUNNING
+PID: P3, Arr: 2, Burst: 1, Rem 0, Prio 3, State: TERMINATED
+
+Time: 3
+PID: P4, Arr: 3, Burst: 2, Rem 2, Prio 2, State: READY
+PID: P2, Arr: 1, Burst: 3, Rem 2, Prio 1, State: RUNNING
+
+Time: 4
+PID: P2, Arr: 1, Burst: 3, Rem 0, Prio 1, State: TERMINATED
+
+Time: 5
+PID: P4, Arr: 3, Burst: 2, Rem 2, Prio 2, State: RUNNING
+
+Time: 6
+PID: P4, Arr: 3, Burst: 2, Rem 0, Prio 2, State: TERMINATED
+
+Time: 7
+PID: P1, Arr: 0, Burst: 5, Rem 4, Prio 2, State: RUNNING
+
+Time: 8
+
+Time: 9
+
+Time: 10
+PID: P1, Arr: 0, Burst: 5, Rem 0, Prio 2, State: TERMINATED
+
+Time: 11
